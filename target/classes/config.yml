@@ -1,18 +1,17 @@
 # Language configuration
-language: en_en # Possible values: ru_ru, en_en
-
-# Join messages (default in English)
-join-message:
-  default: "&6Welcome, &e%player%&6!"
-  admin: "&cHello administrator &e%player%&c!"
-  moderator: "&aHello moderator &e%player%&a!"
-
-# Quit messages (default in English)
-leave-message:
-  default: "&c%player% left the server."
-  admin: "&cAdministrator %player% left the server."
-  moderator: "&cModerator %player% left the server."
+language: en_en # Possible values: en_en, ru_ru
 
 # Enable join statistics
 stats-enabled: true
-stats-message: "&aThis is your &6%joins%&a-th join on the server!"
+
+# Default join messages
+join-message:
+  default: " &6Welcome,  &e%player% &6!"
+  admin: " &cHello administrator  &e%player% &c!"
+  moderator: " &aHello moderator  &e%player% &a!"
+
+# Default quit messages
+leave-message:
+  default: " &c%player% left the server."
+  admin: " &cAdministrator %player% left the server."
+  moderator: " &cModerator %player% left the server."

@@ -30,26 +30,26 @@ import java.util.UUID;
 
 public class Main extends JavaPlugin implements Listener {
 
-    private Permission permission = null; // Vault permission system
-    private boolean placeholderAPIEnabled = false; // PlaceholderAPI integration flag
-    private File customMessagesFile; // File for custom join messages
-    private FileConfiguration customMessagesConfig; // Configuration for custom join messages
-    private File languageFile; // Language file based on the selected language
-    private FileConfiguration languageConfig; // Configuration for the selected language
+    private Permission permission = null;
+    private boolean placeholderAPIEnabled = false;
+    private File customMessagesFile;
+    private FileConfiguration customMessagesConfig;
+    private File languageFile;
+    private FileConfiguration languageConfig;
 
     @Override
     public void onEnable() {
-        getConfig().options().copyDefaults(true); // Copy default configuration
-        saveDefaultConfig(); // Save the default configuration
-        getServer().getPluginManager().registerEvents(this, this); // Register event listeners
+        getConfig().options().copyDefaults(true);
+        saveDefaultConfig();
+        getServer().getPluginManager().registerEvents(this, this);
 
-        setupPermissions(); // Initialize Vault permissions
+        setupPermissions();
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            placeholderAPIEnabled = true; // Enable PlaceholderAPI support
+            placeholderAPIEnabled = true;
         }
 
-        // Initialize the custom_messages.yml file
+        // Инициализация файла custom_messages.yml
         customMessagesFile = new File(getDataFolder(), "custom_messages.yml");
         if (!customMessagesFile.exists()) {
             try {
@@ -60,20 +60,20 @@ public class Main extends JavaPlugin implements Listener {
         }
         customMessagesConfig = YamlConfiguration.loadConfiguration(customMessagesFile);
 
-        // Initialize the language file based on the 'language' setting in config.yml
+        // Инициализация языкового файла
         String language = getConfig().getString("language", "en_en");
         languageFile = new File(getDataFolder(), "languages/" + language + ".yml");
         if (!languageFile.exists()) {
-            saveResource("languages/" + language + ".yml", false); // Save the default language file if it doesn't exist
+            saveResource("languages/" + language + ".yml", false);
         }
         languageConfig = YamlConfiguration.loadConfiguration(languageFile);
 
-        getLogger().info("Custom Join Message plugin enabled!"); // Log plugin startup
+        getLogger().info("Custom Join Message plugin enabled!");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("Custom Join Message plugin disabled."); // Log plugin shutdown
+        getLogger().info("Custom Join Message plugin disabled.");
     }
 
     @EventHandler
@@ -81,23 +81,22 @@ public class Main extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         String playerName = player.getName();
 
-        // Check if the player has a custom join message
+        // Проверяем, есть ли у игрока уникальное сообщение
         String customMessage = getCustomMessage(playerName);
         if (customMessage != null) {
-            event.setJoinMessage(processMessage(customMessage, player)); // Use the custom join message
+            event.setJoinMessage(processMessage(customMessage, player));
         } else {
-            // Get the player's primary group and load the join message from the main config
             String group = getPrimaryGroup(player);
             String joinMessage = getConfig().getString("join-message." + group, getConfig().getString("join-message.default"));
 
             if (placeholderAPIEnabled && joinMessage != null) {
-                joinMessage = PlaceholderAPI.setPlaceholders(player, joinMessage); // Replace placeholders using PlaceholderAPI
+                joinMessage = PlaceholderAPI.setPlaceholders(player, joinMessage);
             }
 
             event.setJoinMessage(joinMessage != null ? ChatColor.translateAlternateColorCodes('&', joinMessage.replace("%player%", playerName)) : null);
         }
 
-        // Handle join statistics if enabled
+        // Статистика входов
         if (getConfig().getBoolean("stats-enabled")) {
             File statsFile = new File(getDataFolder(), "player_stats.yml");
             FileConfiguration statsConfig = YamlConfiguration.loadConfiguration(statsFile);
@@ -111,8 +110,7 @@ public class Main extends JavaPlugin implements Listener {
                 e.printStackTrace();
             }
 
-            // Send the join statistics message to the player
-            String statsMessage = getConfig().getString("stats-message").replace("%joins%", String.valueOf(joins)).replace("%player%", playerName);
+            String statsMessage = getLocalizedMessage("stats-message").replace("%joins%", String.valueOf(joins)).replace("%player%", playerName);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', statsMessage));
         }
     }
@@ -122,12 +120,11 @@ public class Main extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         String playerName = player.getName();
 
-        // Get the player's primary group and load the quit message from the main config
         String group = getPrimaryGroup(player);
         String leaveMessage = getConfig().getString("leave-message." + group, getConfig().getString("leave-message.default"));
 
         if (placeholderAPIEnabled && leaveMessage != null) {
-            leaveMessage = PlaceholderAPI.setPlaceholders(player, leaveMessage); // Replace placeholders using PlaceholderAPI
+            leaveMessage = PlaceholderAPI.setPlaceholders(player, leaveMessage);
         }
 
         event.setQuitMessage(leaveMessage != null ? ChatColor.translateAlternateColorCodes('&', leaveMessage.replace("%player%", playerName)) : null);
@@ -137,13 +134,13 @@ public class Main extends JavaPlugin implements Listener {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("cjm")) {
             if (args.length == 0) {
-                // Display the list of available commands
+                // Вывод списка доступных команд
                 sender.sendMessage(ChatColor.GREEN + getLocalizedMessage("command-help"));
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("reset")) {
-                // Handle the /cjm reset command
+                // Команда /cjm reset
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     removeCustomMessage(player.getName());
@@ -155,7 +152,7 @@ public class Main extends JavaPlugin implements Listener {
             }
 
             if (args[0].equalsIgnoreCase("delete") && sender.hasPermission("cjm.admin")) {
-                // Handle the /cjm delete <Nickname> command
+                // Команда /cjm delete  
                 if (args.length != 2) {
                     sender.sendMessage(ChatColor.RED + getLocalizedMessage("command-usage"));
                     return false;
@@ -168,19 +165,19 @@ public class Main extends JavaPlugin implements Listener {
             }
 
             if (args.length == 2) {
-                // Handle the /cjm <group> <message> command
+                // Команда /cjm    
                 String group = args[0];
                 String message = args[1];
 
                 getConfig().set("join-message." + group, message);
                 saveConfig();
 
-                sender.sendMessage(ChatColor.GREEN + "&aJoin message for group " + group + " updated!");
+                sender.sendMessage(ChatColor.GREEN + " &aJoin message for group " + group + " updated!");
                 return true;
             }
 
             if (args.length == 1 && args[0].equalsIgnoreCase("gui")) {
-                // Handle the /cjm gui command
+                // Команда /cjm gui
                 if (sender instanceof Player) {
                     openGUIMenu((Player) sender);
                 } else {
@@ -189,7 +186,7 @@ public class Main extends JavaPlugin implements Listener {
                 return true;
             }
 
-            // If the command is not recognized
+            // Если команда не распознана
             sender.sendMessage(ChatColor.RED + getLocalizedMessage("command-usage"));
             return false;
         }
@@ -202,7 +199,7 @@ public class Main extends JavaPlugin implements Listener {
             return;
         }
 
-        event.setCancelled(true); // Cancel the inventory click event
+        event.setCancelled(true);
 
         Player player = (Player) event.getWhoClicked();
         int slot = event.getRawSlot();
@@ -241,7 +238,7 @@ public class Main extends JavaPlugin implements Listener {
 
     private String getPrimaryGroup(Player player) {
         if (permission != null) {
-            return permission.getPrimaryGroup(player); // Get the player's primary group using Vault
+            return permission.getPrimaryGroup(player);
         }
         return "default";
     }
@@ -251,7 +248,7 @@ public class Main extends JavaPlugin implements Listener {
         if (rsp != null) {
             permission = rsp.getProvider();
         }
-        return (permission != null); // Return true if Vault permissions are successfully initialized
+        return (permission != null);
     }
 
     private void openGUIMenu(Player player) {
@@ -270,32 +267,33 @@ public class Main extends JavaPlugin implements Listener {
         inventory.setItem(0, defaultItem);
         inventory.setItem(1, customItem);
 
-        player.openInventory(inventory); // Open the GUI for the player
+        player.openInventory(inventory);
     }
 
-    // Method to get a localized message from the language file
+    // Метод для получения локализованного сообщения
     private String getLocalizedMessage(String key) {
-        return languageConfig.getString(key, "&cMissing translation for " + key);
+        String rawMessage = languageConfig.getString(key, " &cMissing translation for " + key);
+        return ChatColor.translateAlternateColorCodes('&', rawMessage); // Преобразуем цветовые коды
     }
 
-    // Method to get a custom join message for a player
+    // Метод для получения уникального сообщения игрока
     private String getCustomMessage(String playerName) {
         return customMessagesConfig.getString("players." + playerName);
     }
 
-    // Method to set a custom join message for a player
+    // Метод для установки уникального сообщения
     private void setCustomMessage(String playerName, String message) {
         customMessagesConfig.set("players." + playerName, message);
         saveCustomMessages();
     }
 
-    // Method to remove a player's custom join message
+    // Метод для удаления уникального сообщения
     private void removeCustomMessage(String playerName) {
         customMessagesConfig.set("players." + playerName, null);
         saveCustomMessages();
     }
 
-    // Method to save the custom_messages.yml file
+    // Сохранение custom_messages.yml
     private void saveCustomMessages() {
         try {
             customMessagesConfig.save(customMessagesFile);
@@ -304,26 +302,26 @@ public class Main extends JavaPlugin implements Listener {
         }
     }
 
-    // Method to process messages (replace %player% and handle PlaceholderAPI)
+ // Обработка сообщения (замена %player% и PlaceholderAPI)
     private String processMessage(String message, Player player) {
         if (placeholderAPIEnabled) {
-            message = PlaceholderAPI.setPlaceholders(player, message); // Replace placeholders using PlaceholderAPI
+            message = PlaceholderAPI.setPlaceholders(player, message); // Заменяем плейсхолдеры
         }
-        return ChatColor.translateAlternateColorCodes('&', message.replace("%player%", player.getName()));
+        return ChatColor.translateAlternateColorCodes('&', message.replace("%player%", player.getName())); // Преобразуем цветовые коды
     }
 
-    // Map to track players waiting for a custom message input
+    // Ожидание сообщения от игрока
     private final Map<UUID, Boolean> waitingForMessage = new HashMap<>();
-
-    private boolean isWaitingForMessage(Player player) {
-        return waitingForMessage.getOrDefault(player.getUniqueId(), false);
-    }
 
     private void waitForCustomMessage(Player player) {
         waitingForMessage.put(player.getUniqueId(), true);
     }
 
+    private boolean isWaitingForMessage(Player player) {
+        return waitingForMessage.getOrDefault(player.getUniqueId(), false);
+    }
+
     private void stopWaitingForMessage(Player player) {
-        waitingForMessage.put(player.getUniqueId(), false);
+        waitingForMessage.remove(player.getUniqueId());
     }
 }
