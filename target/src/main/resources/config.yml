@@ -1,0 +1,17 @@
+# Language configuration
+language: en_en # Possible values: en_en, ru_ru
+
+# Join message
+join-message:
+  default: "&6Welcome,  &e%player% &6!"
+  admin: "&cHello administrator  &e%player% &c!"
+  moderator: "&aHello moderator  &e%player% &a!"
+
+# Leave message
+leave-message:
+  default: "&c%player% left the server."
+  admin: "&cAdministrator %player% left the server."
+  moderator: "&cModerator %player% left the server."
+
+# True/False Message Stats
+stats-enabled: true
