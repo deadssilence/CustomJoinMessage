@@ -1,0 +1,15 @@
+# Сообщения при входе
+messages:
+  default: "&6Добро пожаловать, &e%player%&6!"
+  admin: "&cПриветствую администратора &e%player%&c!"
+  moderator: "&aЗдравствуйте, модератор &e%player%&a!"
+
+# Сообщения при выходе
+leave-messages:
+  default: "&c%player% покинул сервер."
+  admin: "&cАдминистратор %player% покинул сервер."
+  moderator: "&cМодератор %player% покинул сервер."
+
+# Статистика входов
+stats-enabled: true
+stats-message: "&aЭто ваш &6%joins%&a-й вход на сервер!"

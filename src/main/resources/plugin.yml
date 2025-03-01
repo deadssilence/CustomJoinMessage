@@ -1,0 +1,13 @@
+name: CustomJoinMessage
+version: 1.0.0
+main: me.deadssilence.cjm.Main
+api-version: 1.18
+description: Плагин для настраиваемого сообщения при входе и выходе.
+commands:
+  cjm:
+    description: Управление сообщениями при входе
+    permission: cjm.admin
+permissions:
+  cjm.admin:
+    description: Разрешение для управления сообщениями
+    default: op
