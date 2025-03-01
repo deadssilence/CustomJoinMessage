@@ -2,65 +2,70 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.deadssilence.cjm</groupId>
-    <artifactId>CustomJoinMessage</artifactId>
-    <version>1.0.0</version>
+    <!-- Project identification -->
+    <groupId>me.deadssilence.cjm</groupId> <!-- Unique identifier for the project group -->
+    <artifactId>CustomJoinMessage</artifactId> <!-- Name of the project -->
+    <version>1.0.0</version> <!-- Version of the project -->
 
+    <!-- Java version settings -->
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source> <!-- Java source version -->
+        <maven.compiler.target>1.8</maven.compiler.target> <!-- Java target version -->
     </properties>
 
+    <!-- Repositories for dependencies -->
     <repositories>
-        <!-- Репозиторий для Spigot API -->
+        <!-- Repository for Spigot API -->
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>spigotmc-repo</id> <!-- Unique ID for the repository -->
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url> <!-- URL of the repository -->
         </repository>
 
-        <!-- Репозиторий для PlaceholderAPI -->
+        <!-- Repository for PlaceholderAPI (JitPack) -->
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>jitpack.io</id> <!-- Unique ID for the repository -->
+            <url>https://jitpack.io</url> <!-- URL of the repository -->
         </repository>
     </repositories>
 
+    <!-- Dependencies required for the project -->
     <dependencies>
-        <!-- Spigot API -->
+        <!-- Spigot API dependency -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>org.spigotmc</groupId> <!-- Group ID of the dependency -->
+            <artifactId>spigot-api</artifactId> <!-- Artifact ID of the dependency -->
+            <version>1.18.2-R0.1-SNAPSHOT</version> <!-- Version of the dependency -->
+            <scope>provided</scope> <!-- Scope: provided means the dependency is available at runtime but not included in the JAR -->
         </dependency>
 
-        <!-- Vault -->
+        <!-- Vault dependency -->
         <dependency>
-            <groupId>net.milkbowl</groupId>
-            <artifactId>vault</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
+            <groupId>net.milkbowl</groupId> <!-- Group ID of the dependency -->
+            <artifactId>vault</artifactId> <!-- Artifact ID of the dependency -->
+            <version>1.7</version> <!-- Version of the dependency -->
+            <scope>provided</scope> <!-- Scope: provided means the dependency is available at runtime but not included in the JAR -->
         </dependency>
 
-        <!-- PlaceholderAPI -->
+        <!-- PlaceholderAPI dependency -->
         <dependency>
-            <groupId>com.github.clipboard</groupId>
-            <artifactId>PlaceholderAPI</artifactId>
-            <version>2.11.3</version>
-            <scope>provided</scope>
+            <groupId>com.github.clipboard</groupId> <!-- Group ID of the dependency -->
+            <artifactId>PlaceholderAPI</artifactId> <!-- Artifact ID of the dependency -->
+            <version>2.11.3</version> <!-- Version of the dependency -->
+            <scope>provided</scope> <!-- Scope: provided means the dependency is available at runtime but not included in the JAR -->
         </dependency>
     </dependencies>
 
+    <!-- Build configuration -->
     <build>
         <plugins>
-            <!-- Плагин для компиляции проекта -->
+            <!-- Compiler plugin configuration -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <groupId>org.apache.maven.plugins</groupId> <!-- Group ID of the plugin -->
+                <artifactId>maven-compiler-plugin</artifactId> <!-- Artifact ID of the plugin -->
+                <version>3.8.1</version> <!-- Version of the plugin -->
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.8</source> <!-- Java source version -->
+                    <target>1.8</target> <!-- Java target version -->
                 </configuration>
             </plugin>
         </plugins>

@@ -1,13 +1,18 @@
-name: CustomJoinMessage
-version: 1.0.0
-main: me.deadssilence.cjm.Main
-api-version: 1.18
-description: Плагин для настраиваемого сообщения при входе и выходе.
+# Plugin identification
+name: CustomJoinMessagePlugin # Name of the plugin
+version: 1.0.0 # Version of the plugin
+main: me.deadssilence.cjm.Main # Main class of the plugin
+api-version: 1.18 # API version of Minecraft the plugin is compatible with
+description: A plugin to customize join and quit messages for players. # Description of the plugin
+
+# Commands configuration
 commands:
-  cjm:
-    description: Управление сообщениями при входе
-    permission: cjm.admin
+  cjm: # Command name
+    description: Manage join messages for groups and players. # Description of the command
+    permission: cjm.admin # Permission required to use the command (for administrative commands)
+
+# Permissions configuration
 permissions:
-  cjm.admin:
-    description: Разрешение для управления сообщениями
-    default: op
+  cjm.admin: # Permission node
+    description: Allows access to administrative commands for managing join messages. # Description of the permission
+    default: op # Default value: only operators have this permission

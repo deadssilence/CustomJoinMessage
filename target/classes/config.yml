@@ -1,15 +1,18 @@
-# Сообщения при входе
-messages:
-  default: "&6Добро пожаловать, &e%player%&6!"
-  admin: "&cПриветствую администратора &e%player%&c!"
-  moderator: "&aЗдравствуйте, модератор &e%player%&a!"
+# Language configuration
+language: en_en # Possible values: ru_ru, en_en
 
-# Сообщения при выходе
-leave-messages:
-  default: "&c%player% покинул сервер."
-  admin: "&cАдминистратор %player% покинул сервер."
-  moderator: "&cМодератор %player% покинул сервер."
+# Join messages (default in English)
+join-message:
+  default: "&6Welcome, &e%player%&6!"
+  admin: "&cHello administrator &e%player%&c!"
+  moderator: "&aHello moderator &e%player%&a!"
 
-# Статистика входов
+# Quit messages (default in English)
+leave-message:
+  default: "&c%player% left the server."
+  admin: "&cAdministrator %player% left the server."
+  moderator: "&cModerator %player% left the server."
+
+# Enable join statistics
 stats-enabled: true
-stats-message: "&aЭто ваш &6%joins%&a-й вход на сервер!"
+stats-message: "&aThis is your &6%joins%&a-th join on the server!"
